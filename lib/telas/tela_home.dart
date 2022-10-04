@@ -2,44 +2,57 @@ import 'package:flutter/material.dart';
 import 'package:you_tube/api.dart';
 import 'package:you_tube/models/video.dart';
 import 'package:image_network/image_network.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube/youtube.dart';
 
 class telaHome extends StatefulWidget {
-  const telaHome({super.key});
+  String pesquisa;
+
+  telaHome(this.pesquisa);
 
   @override
   State<telaHome> createState() => _telaHomeState();
 }
 
 class _telaHomeState extends State<telaHome> {
-  _listarVideos() {
-    Future<List<Video>> videos;
+  _listarVideos(String pesquisa) {
+    Future<List<Video>?> videos;
 
     Api api = Api();
-    return api.pesquisar("");
+    return api.pesquisar(pesquisa);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Video>>(
-      future: _listarVideos(),
+    return FutureBuilder<List<Video>?>(
+      future: _listarVideos(widget.pesquisa),
       builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
+                  List<Video> videos = snapshot.data ?? [];
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Text('DEU RUIM'),
+                    );
+                  } else {
+                    switch (snapshot.connectionState) {
           case ConnectionState.none:
             break;
 
           case ConnectionState.active:
             break;
           case ConnectionState.waiting:
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
             break;
           case ConnectionState.done:
             return ListView.separated(
                 itemBuilder: (context, index) {
-                  List<Video> videos = snapshot.data!;
                   Video video = videos[index];
-                  return Column(
+                  return GestureDetector(
+                    onTap: (){
+                      
+                    },
+                    child: Column(
                     children: <Widget>[
                       Container(
                         height: 200,
@@ -52,21 +65,23 @@ class _telaHomeState extends State<telaHome> {
                       ListTile(
                         title: Text(
                           video.titulo ?? "",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         subtitle: Text(video.canal ?? ""),
                       )
                     ],
+                  ),
                   );
                 },
-                separatorBuilder: (context, index) => Divider(
+                separatorBuilder: (context, index) => const Divider(
                       height: 2,
                       color: Colors.grey,
                     ),
                 itemCount: snapshot.data!.length);
             break;
         }
-        return AlertDialog();
+                  }
+              return const AlertDialog();
       },
     );
   }

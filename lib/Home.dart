@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:you_tube/CustomSearchDelegate.dart';
 import 'package:you_tube/telas/tela_folder.dart';
 import 'package:you_tube/telas/tela_home.dart';
 import 'package:you_tube/telas/tela_hot.dart';
@@ -13,11 +14,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _indiceAtual = 0;
+  String resultado = "";
 
   @override
   Widget build(BuildContext context) {
     List<Widget> telas = [
-      telaHome(),
+      telaHome(resultado),
       telaHot(),
       telaSub(),
       telaFolder(),
@@ -32,21 +34,25 @@ class _HomeState extends State<Home> {
             height: 22,
           ),
           actions: <Widget>[
-            IconButton(
+            /*IconButton(
                 onPressed: () {
                   print("acao video cam");
                 },
-                icon: Icon(Icons.videocam)),
+                icon: Icon(Icons.videocam)),*/
             IconButton(
-                onPressed: () {
-                  print("acao search");
+                onPressed: () async {
+                  String res = await showSearch(context: context, delegate: CustomSearchDelegate()) ?? "";
+                setState(() {
+                  resultado = res;
+                });
+                  print("acao search" + res);
                 },
                 icon: Icon(Icons.search)),
-            IconButton(
+           /* IconButton(
                 onPressed: () {
                   print("acao circle");
                 },
-                icon: Icon(Icons.account_circle)),
+                icon: Icon(Icons.account_circle)),*/
           ]),
       body: Container(
         padding: EdgeInsets.all(16),
