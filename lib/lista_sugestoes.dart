@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:you_tube/api.dart';
-
 import 'models/pesquisa.dart';
 
 class ListaSugestoes extends StatefulWidget {
@@ -18,6 +17,9 @@ class _ListaSugestoesState extends State<ListaSugestoes> {
     autocomplete = await api.pesquisarp(widget.query) ?? [];
     setState(() {
       carregando = false;
+      return setState(() {
+
+      });
     });
   }
  late List<Pesquisa> autocomplete;

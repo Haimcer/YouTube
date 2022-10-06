@@ -8,6 +8,7 @@ import 'package:youtube/youtube.dart';
 class telaHome extends StatefulWidget {
   String pesquisa;
 
+
   telaHome(this.pesquisa);
 
   @override
@@ -15,6 +16,9 @@ class telaHome extends StatefulWidget {
 }
 
 class _telaHomeState extends State<telaHome> {
+
+
+
   _listarVideos(String pesquisa) {
     Future<List<Video>?> videos;
 
@@ -22,15 +26,21 @@ class _telaHomeState extends State<telaHome> {
     return api.pesquisar(pesquisa);
   }
 
+
   @override
   Widget build(BuildContext context) {
+
     return FutureBuilder<List<Video>?>(
       future: _listarVideos(widget.pesquisa),
+
+
       builder: (context, snapshot) {
                   List<Video> videos = snapshot.data ?? [];
                   if (snapshot.data == null) {
-                    return Center(
-                      child: Text('DEU RUIM'),
+                    return const Center(
+                      child:
+                        CircularProgressIndicator(),
+
                     );
                   } else {
                     switch (snapshot.connectionState) {
@@ -46,22 +56,46 @@ class _telaHomeState extends State<telaHome> {
             break;
           case ConnectionState.done:
             return ListView.separated(
+
                 itemBuilder: (context, index) {
                   Video video = videos[index];
+
+
                   return GestureDetector(
                     onTap: (){
-                      
+                      print ("${video.id}");
                     },
                     child: Column(
                     children: <Widget>[
+
                       Container(
                         height: 200,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(video.imagem ?? ""),
-                        )),
+
+                        child: YoutubePlayer(
+
+                          thumbnail: DecoratedBox(
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(video.imagem ?? ""),
+                                )),
+                          ),
+                          controller: YoutubePlayerController(
+                            initialVideoId: "${video.id}",
+                            flags: YoutubePlayerFlags(
+                              autoPlay: false,
+
+                            ),
+                          ),
+                          showVideoProgressIndicator: true,
+                          progressIndicatorColor: Colors.red,
+                          progressColors: ProgressBarColors(
+                            playedColor: Colors.red,
+                            handleColor: Colors.redAccent,
+                          ),
+                        ),
                       ),
+
                       ListTile(
                         title: Text(
                           video.titulo ?? "",

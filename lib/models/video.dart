@@ -6,6 +6,8 @@ class Video {
   String? descricao;
   String? imagem;
   String? canal;
+  String? logo;
+  String? data;
   Video({
     this.id,
     this.titulo,
@@ -28,7 +30,10 @@ class Video {
         titulo: json["snippet"]["title"],
         imagem: json["snippet"]["thumbnails"]["high"]["url"],
         canal: json["snippet"]["channelTitle"],
-        descricao: json["snippet"]["description"]);
+        descricao: json["snippet"]["description"],
+
+    );
+
   }
 
   /* Video copyWith({

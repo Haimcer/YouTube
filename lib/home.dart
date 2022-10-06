@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:you_tube/CustomSearchDelegate.dart';
+import 'package:you_tube/customSearchDelegate.dart';
 import 'package:you_tube/telas/tela_folder.dart';
 import 'package:you_tube/telas/tela_home.dart';
-import 'package:you_tube/telas/tela_hot.dart';
+import 'package:you_tube/telas/tela_explore.dart';
 import 'package:you_tube/telas/tela_subscriptions.dart';
+import 'package:you_tube/telas/tela_add.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -21,10 +22,12 @@ class _HomeState extends State<Home> {
     List<Widget> telas = [
       telaHome(resultado),
       telaHot(),
+      telaAdd(),
       telaSub(),
       telaFolder(),
     ];
     return Scaffold(
+
       appBar: AppBar(
           iconTheme: IconThemeData(opacity: 1, color: Colors.grey),
           backgroundColor: Colors.white,
@@ -71,22 +74,32 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
             // backgroundColor: Colors.red,
             label: "Início",
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
           ),
           BottomNavigationBarItem(
             // backgroundColor: Colors.red,
-            label: "Em alta",
-            icon: Icon(Icons.whatshot),
+            label: "Explore",
+            icon: Icon(Icons.explore_outlined),
+            activeIcon: Icon(Icons.explore),
           ),
+      BottomNavigationBarItem(
+        // backgroundColor: Colors.red,
+        label: "Add",
+        icon: Icon(Icons.add_circle_outlined),
+        activeIcon: Icon(Icons.add_circle),
+      ),
           BottomNavigationBarItem(
             // backgroundColor: Colors.red,
             label: "Inscrições",
-            icon: Icon(Icons.subscriptions),
+            icon: Icon(Icons.subscriptions_outlined),
+            activeIcon: Icon(Icons.subscriptions),
           ),
           BottomNavigationBarItem(
             // backgroundColor: Colors.red,
             label: "Biblioteca",
-            icon: Icon(Icons.folder),
+            icon: Icon(Icons.video_library_outlined),
+            activeIcon: Icon(Icons.video_library),
           ),
         ],
       ),
